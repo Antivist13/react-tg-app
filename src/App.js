@@ -1,13 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Main from "./pages/Main";
+import Auth from "./pages/Auth";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-    </div>
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Main/>} />
+                <Route path="/auth" element={<Auth/>} />
+                <Route path="/main" element={<Main/>} />
+            </Routes>
+      </BrowserRouter>
   );
 }
 
