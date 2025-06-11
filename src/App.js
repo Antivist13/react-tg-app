@@ -10,7 +10,7 @@ function App() {
                 <Route path="/auth" element={<Auth/>} />
                 <Route path="/main" element={<Main/>} />
             </Routes>
-      </BrowserRouter>
+        </BrowserRouter>
   );
 }
 
