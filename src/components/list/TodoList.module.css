@@ -1,0 +1,9 @@
+.list {
+    width: 900px;
+    border: 1px solid teal;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+}
