@@ -4,14 +4,13 @@ import TodoItem from "../item/TodoItem";
 import todoService from "../../services/todo.service";
 import {ModalContext} from "../context";
 import Modal from "../../UI/modal/Modal";
-import Input from "../../UI/input/Input";
 import Button from "../../UI/button/Button";
 import Form from "../form/Form";
 
 const TodoList = () => {
     const [todoItems, setTodoItems] = useState([]);
-    const [todoItem, setTodoItem] = useState({})
-    // const [newTodo, setNewTodo] = useState({id: '', title: ''});
+    const [todoItem, setTodoItem] = useState({});
+    const [typeModal, setTypeModal] = useState('');
     const [inputValue, setInputValue] = useState("");
     const [modalVisible, setModalVisible] = useContext(ModalContext);
 
@@ -36,10 +35,14 @@ const TodoList = () => {
             });
     }, []);
 
-    function openEditModal(todo) {
+    function openModal(type, todo = null) {
         setModalVisible(true);
-        setTodoItem(todo);
-        setInputValue(todo.title);
+        setTypeModal(type);
+        setInputValue('');
+        if (type === 'edit') {
+            setTodoItem(todo);
+            setInputValue(todo.title);
+        }
     }
 
     const getInputValue = (currentValue) => {
@@ -47,8 +50,7 @@ const TodoList = () => {
     }
 
     const submitModal = (e, type) => {
-        e.preventDefault();
-        setModalVisible(false);
+        cancel(e);
         let updateTodoItems = todoItems.map(todo => {
             return todo.id === todoItem.id
                 ? {...todo, title: inputValue}
@@ -56,20 +58,29 @@ const TodoList = () => {
         });
 
         if (type === "create") {
-
+            updateTodoItems = [...todoItems, {
+                id: todoItems[todoItems.length - 1].id + 1,
+                title: inputValue,
+            }]
         }
 
-        setTodoItems(updateTodoItems)
+        setTodoItems(updateTodoItems);
+    }
+
+    const cancel = (e) => {
+        e.preventDefault();
+        setModalVisible(false);
     }
 
     return (
         <div className={classes.list}>
             <h2 className={classes.title}>Todo - List</h2>
+            <Button onClick={() => openModal("create")} children={"Создать"}/>
             {
                 todoItems.map((todo, index) => {
                     return <TodoItem
                         remove={removeTodo}
-                        edit={openEditModal}
+                        edit={openModal}
                         number={index + 1}
                         todo={todo}
                         key={todo.id}
@@ -78,10 +89,11 @@ const TodoList = () => {
             }
             <Modal>
                 <Form
-                    type={"edit"}
+                    type={typeModal}
                     inputValue={inputValue}
                     getInputValue={getInputValue}
                     submit={submitModal}
+                    cancel={cancel}
                 />
             </Modal>
         </div>

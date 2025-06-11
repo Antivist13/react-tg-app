@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
 import Button from "../../UI/button/Button";
 import classes from "./TodoItem.module.css";
-import Input from "../../UI/input/Input";
 
 const TodoItem = (props) => {
     return (
@@ -13,7 +11,7 @@ const TodoItem = (props) => {
                 }
             </div>
             <Button onClick={() => props.remove(props.todo)}>Удалить</Button>
-            <Button onClick={() => props.edit(props.todo)}>Изменить</Button>
+            <Button onClick={() => props.edit("edit", props.todo)}>Изменить</Button>
         </div>
     );
 };

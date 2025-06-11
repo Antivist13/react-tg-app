@@ -5,4 +5,6 @@
     color: teal;
     cursor: pointer;
     height: 25px;
+    margin: 0 auto;
+    display: flex;
 }
