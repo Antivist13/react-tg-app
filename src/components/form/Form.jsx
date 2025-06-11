@@ -1,16 +1,10 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import Input from "../../UI/input/Input";
 import Button from "../../UI/button/Button";
 import {ModalContext} from "../context";
 
 const Form = (props) => {
     const [modalVisible, setModalVisible] = useContext(ModalContext);
-
-    const cancel = (e) => {
-        e.preventDefault();
-        setModalVisible(false);
-    }
-
     return (
         <form>
             <Input
@@ -25,7 +19,7 @@ const Form = (props) => {
                     : "Изменить"
                 }
             </Button>
-            <Button onClick={(e) => cancel(e)}>Отменить</Button>
+            <Button onClick={(e) => props.cancel(e)}>Отменить</Button>
         </form>
     );
 };
