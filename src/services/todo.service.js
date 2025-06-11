@@ -4,7 +4,7 @@ import {TODO_API} from "../API/todo.api";
 export default class TodoService {
     static async getAllTodo() {
         try {
-            return (await axios.get(TODO_API)).data;
+            return (await axios.get(`${TODO_API}/posts`)).data;
         }
         catch (error) {
             console.log(error);

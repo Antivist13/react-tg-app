@@ -6,10 +6,10 @@ const TodoItem = (props) => {
     return (
         <div className={classes.item}>
             <div className={classes.item__container}>
-                <strong className="item__number">{props.id}. </strong>
-                <span className="item__text">{props.title}</span>
+                <strong className="item__number">{props.number} </strong>
+                <span className="item__text">{props.todo.title}</span>
             </div>
-            <Button>Удалить</Button>
+            <Button onClick={() => props.remove(props.todo)}>Удалить</Button>
         </div>
     );
 };
