@@ -11,12 +11,21 @@
     width: 75px;
     border-radius: 5px;
     font-family: 'JetBrains Mono';
+    align-items: center;
 }
 
 .button:hover {
     border: none;
     background-color: teal;
     color: white;
+}
+
+.area-B {
+    grid-area: B;
+}
+
+.area-C {
+    grid-area: C;
 }
 
 @media screen and (max-width: 900px) {

@@ -1,0 +1,14 @@
+.form {
+    display: grid;
+    grid-template-areas: "A B" "C C";
+    align-items: center;
+    gap: 5px;
+}
+
+.submit {
+    grid-area: B;
+}
+
+.cancel {
+    grid-area: C;
+}

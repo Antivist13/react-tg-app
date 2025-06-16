@@ -1,0 +1,16 @@
+.auth {
+    max-width: 600px;
+    height: 80vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-family: 'JetBrains mono';
+    color: teal;
+    display: flex;
+    justify-content: center;
+}
