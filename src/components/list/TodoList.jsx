@@ -44,7 +44,7 @@ const TodoList = () => {
     }
 
     function removeTodo(todo) {
-        setTodoItems(
+        setSortedTodoItems(
             sortedTodoItems.filter(todoItem => {
                 return todoItem.id !== todo.id
             })
@@ -66,7 +66,7 @@ const TodoList = () => {
             }]
         }
 
-        setTodoItems(updateTodoItems);
+        setSortedTodoItems(updateTodoItems);
     }
 
     const cancel = (e) => {
