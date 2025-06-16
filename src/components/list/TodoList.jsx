@@ -1,12 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import classes from "./TodoList.module.css";
 import TodoItem from "../item/TodoItem";
 import todoService from "../../services/todo.service";
 import {ModalContext} from "../context";
 import Modal from "../../UI/modal/Modal";
-import Button from "../../UI/button/Button";
 import Form from "../form/Form";
-import Input from "../../UI/input/Input";
+import Header from '../header/Header';
 
 const TodoList = () => {
     const [todoItems, setTodoItems] = useState([]);
@@ -88,22 +87,18 @@ const TodoList = () => {
         setSortedTodoItems(sortedTodos);
     }
 
-    function getState(value) {
-        console.log(value)
-    }
-
     return (
-        <div className={classes.list}>
-            <Button onClick={() => openModal("create")} children={"Создать"}/>
-            <label className={classes.search}>
-                <Input type="text" placeholder="Искать..." onChange={(e) => search(e.target.value)} />
-            </label>
+        <div className={classes.list}>   
+            <Header
+                create={openModal}
+                search={search}
+            >
+            </Header>
             {
                 sortedTodoItems.map((todo, index) => {
                     return <TodoItem
                         remove={removeTodo}
                         edit={openModal}
-                        state={getState}
                         number={index + 1}
                         todo={todo}
                         key={todo.id}

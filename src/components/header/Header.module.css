@@ -1,0 +1,8 @@
+.navbar {
+    max-width: 600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+    justify-items: center;
+    align-items: center;
+}
