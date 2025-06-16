@@ -7,4 +7,23 @@
     height: 25px;
     margin: 0 auto;
     display: flex;
+    justify-content: center;
+    width: 75px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono';
+}
+
+.button:hover {
+    border: none;
+    background-color: teal;
+    color: white;
+}
+
+@media screen and (max-width: 900px) {
+    .button {
+        width: 100px;
+        height: 30px;
+        align-items: center;
+        font-size: large;
+    }
 }

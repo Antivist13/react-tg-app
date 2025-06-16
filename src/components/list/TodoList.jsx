@@ -6,21 +6,15 @@ import {ModalContext} from "../context";
 import Modal from "../../UI/modal/Modal";
 import Button from "../../UI/button/Button";
 import Form from "../form/Form";
+import Input from "../../UI/input/Input";
 
 const TodoList = () => {
     const [todoItems, setTodoItems] = useState([]);
     const [todoItem, setTodoItem] = useState({});
     const [typeModal, setTypeModal] = useState('');
     const [inputValue, setInputValue] = useState("");
+    const [sortedTodoItems, setSortedTodoItems] = useState([]);
     const [modalVisible, setModalVisible] = useContext(ModalContext);
-
-    function removeTodo(todo) {
-        setTodoItems(
-            todoItems.filter(todoItem => {
-                return todoItem.id !== todo.id
-            })
-        );
-    }
 
     async function getTodoItems() {
         return await todoService.getAllTodo();
@@ -31,6 +25,7 @@ const TodoList = () => {
             .then(todos => {
                 if (todos) {
                     setTodoItems(todos);
+                    setSortedTodoItems(todos);
                 }
             });
     }, []);
@@ -49,17 +44,25 @@ const TodoList = () => {
         setInputValue(currentValue);
     }
 
+    function removeTodo(todo) {
+        setTodoItems(
+            sortedTodoItems.filter(todoItem => {
+                return todoItem.id !== todo.id
+            })
+        );
+    }
+
     const submitModal = (e, type) => {
         cancel(e);
-        let updateTodoItems = todoItems.map(todo => {
+        let updateTodoItems = sortedTodoItems.map(todo => {
             return todo.id === todoItem.id
                 ? {...todo, title: inputValue}
                 : todo
         });
 
         if (type === "create") {
-            updateTodoItems = [...todoItems, {
-                id: todoItems[todoItems.length - 1].id + 1,
+            updateTodoItems = [...sortedTodoItems, {
+                id: sortedTodoItems[sortedTodoItems.length - 1].id + 1,
                 title: inputValue,
             }]
         }
@@ -72,15 +75,35 @@ const TodoList = () => {
         setModalVisible(false);
     }
 
+    const search = (value) => {
+        if (!value) {
+            setSortedTodoItems(todoItems);
+        }
+
+        const sortedTodos = [...todoItems].filter(todo => {
+            if (todo.title.includes(value)) {
+                return todo;
+            }
+        });
+        setSortedTodoItems(sortedTodos);
+    }
+
+    function getState(value) {
+        console.log(value)
+    }
+
     return (
         <div className={classes.list}>
-            <h2 className={classes.title}>Todo - List</h2>
             <Button onClick={() => openModal("create")} children={"Создать"}/>
+            <label className={classes.search}>
+                <Input type="text" placeholder="Искать..." onChange={(e) => search(e.target.value)} />
+            </label>
             {
-                todoItems.map((todo, index) => {
+                sortedTodoItems.map((todo, index) => {
                     return <TodoItem
                         remove={removeTodo}
                         edit={openModal}
+                        state={getState}
                         number={index + 1}
                         todo={todo}
                         key={todo.id}
