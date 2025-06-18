@@ -1,4 +1,5 @@
 import { FC } from "react";
+import classes  from "./AuthPage.module.css";
 
 const AuthPage: FC = () => {
     return (

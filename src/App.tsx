@@ -14,25 +14,22 @@ const router = createBrowserRouter([
         <ChatPage />
       </Suspense>
     ),
-    children: [
-      {
-        path: "auth",
-        index: true,
-        element: (
-          <Suspense fallback={<div>Загрузка страницы...</div>}>
-            <AuthPage />
-          </Suspense>
-        )
-      },
-      {
-        path: "chat",
-        element: (
-          <Suspense fallback={<div>Загрузка страницы...</div>}>
-            <ChatPage />
-          </Suspense>
-        )
-      },
-    ],
+  },
+  {
+    path: "auth",
+    element: (
+      <Suspense fallback={<div>Загрузка страницы...</div>}>
+        <AuthPage />
+      </Suspense>
+    )
+  },
+  {
+    path: "chat",
+    element: (
+      <Suspense fallback={<div>Загрузка страницы...</div>}>
+        <ChatPage />
+      </Suspense>
+    )
   },
 ]);
 
