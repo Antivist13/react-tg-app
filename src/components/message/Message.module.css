@@ -3,4 +3,23 @@
     font-weight: normal;
     line-height: normal;
     margin: 10px 0;
+    display: flex;
+    align-content: center;
+    justify-content: flex-start;
+}
+
+.Me {
+    justify-content: flex-end;
+}
+
+.container {
+    max-width: 60vw;
+}
+
+.text {
+    border: 1px solid teal;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 12px;
+    color: teal;
 }
