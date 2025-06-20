@@ -1,0 +1,18 @@
+.button {
+    height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: white;
+    color: teal;
+    border: 1px solid teal;
+    cursor: pointer;
+    transition: 0.4s ease-in-out background;
+}
+
+.button:hover {
+    background: teal;
+    color: white;
+    transition: 0.4s ease-in-out background;
+}

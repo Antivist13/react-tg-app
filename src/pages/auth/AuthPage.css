@@ -1,0 +1,25 @@
+.form {
+    max-width: 500px;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form__input {
+    border-top: 1px solid teal;
+}
+
+.title {
+    text-align: center;
+    font-size: 18px;
+    color: teal;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 195px;
+}
