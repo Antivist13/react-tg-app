@@ -1,7 +1,7 @@
 export interface IMessage {
-    id: number;
-    userId: number;
+    id: string;
+    userId: string;
     date: Date;
     text: string;
-    type: string;
+    createdAt?: unknown;
 }
