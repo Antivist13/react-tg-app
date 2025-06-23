@@ -1,0 +1,23 @@
+.chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 375px;
+    width: 100%;
+}
+
+.chartTitle {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+}
+
+.chartSelect {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 100%;
+    color: #5F6979;
+}

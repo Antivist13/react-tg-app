@@ -4,3 +4,14 @@
   box-sizing: border-box;
   font-family: 'JetBrains mono', monospace;
 }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  max-width: 375px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #F7FAFE;
+  height: 100vh;
+  position: relative;
+}
