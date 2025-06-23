@@ -3,7 +3,7 @@ import "./AuthPage.css";
 import Input from "../../UI/input/Input";
 import Button from "../../UI/button/Button";
 import {auth} from "../../Firebase";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 
 const AuthPage: FC = () => {
@@ -16,7 +16,10 @@ const AuthPage: FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setUser(localStorage.getItem('user') ?? '');
+        if (localStorage.getItem('user')) {
+            setUser(localStorage.getItem('user') ?? '');
+            navigate('/chat');
+        }
     }, []);
 
     const getError = (value: string) => {
@@ -35,9 +38,10 @@ const AuthPage: FC = () => {
             if (email.trim() && fullName.trim() && password.trim()) {
                 localStorage.setItem('user', fullName);
                 setUser(localStorage.getItem('user') ?? '');
-                submitter === 'Вход'
+                const logIn = submitter === 'Вход'
                     ? await signInWithEmailAndPassword(auth, email, password)
                     : await  createUserWithEmailAndPassword(auth, email, password);
+                localStorage.setItem('userId', logIn.user.uid);
                 navigate('/chat');
             }
         } catch (e) {
