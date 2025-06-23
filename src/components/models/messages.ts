@@ -1,7 +1,12 @@
 export interface IMessage {
     id: string;
     userId: string;
-    date: Date;
+    date: any;
     text: string;
-    createdAt?: unknown;
+    createdAt?: ITimestamp;
+}
+
+export interface ITimestamp {
+    seconds: string,
+    nanoseconds: string
 }

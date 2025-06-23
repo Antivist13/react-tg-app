@@ -8,64 +8,84 @@ import Input from "../../UI/input/Input";
 import Button from "../../UI/button/Button";
 import Navigation from "../../components/navigation/Navigation";
 import {auth, db} from "../../Firebase";
-import {addDoc, collection, serverTimestamp, query, onSnapshot} from "firebase/firestore";
+import {addDoc, collection, serverTimestamp, query, onSnapshot, getDocs, orderBy} from "firebase/firestore";
 
 const ChatPage: FC = () => {
     const [messagesSelector, setMessagesSelector] = useState<IMessage[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
-    const messageRef = collection(db, "chat");
+    const [loading, setLoading] = useState(false);
+    const messagesRef = collection(db, "chat");
     const navigate = useNavigate();
-    const messagesRef = useRef('');
+    const messageRef = useRef<HTMLInputElement>(null);
 
-    const getMessages = () => {
-        onSnapshot(query(messageRef), (snapshot) => {
-            snapshot.forEach(message => {
-                const newMessage: IMessage[] = [];
-                const collection = message.data();
+    const getMessages = async (): Promise<IMessage[]> => {
+        const querySnapshot = await getDocs(query(messagesRef, orderBy("createdAt", "asc")));
+        const newMessage: IMessage[] = [];
+        if (querySnapshot) {
+            querySnapshot.forEach(snapshot => {
+                const collection = snapshot.data();
+                let currentDate = '';
+                if(collection['created']) {
+                    currentDate = collection['created'].toDate();
+                }
+                
                 if (Object.keys(collection).length) {
                     newMessage.push({
-                        id: collection['id'],
+                        id: snapshot.id,
                         userId: collection['userId'],
                         text: collection['text'],
-                        date: collection['date'],
+                        date: currentDate ?? '',
                         createdAt: collection['createdAt']
                     });
                 }
-                setMessagesSelector([...newMessage]);
-            })
-        });
+            });
+        }
+
+        return newMessage;
     }
     useEffect(() => {
+        setLoading(true);
         if (!localStorage.getItem('user')) {
             navigate('/auth');
+            return;
         }
-        getMessages()
-        console.log(messagesSelector)
+        const currentQuery = query(messagesRef, orderBy("createdAt", "asc"));
+
+        const unsubscribe = onSnapshot(currentQuery, (querySnapshot) => {
+            const messages: IMessage[] = [];
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                messages.push({
+                    id: doc.id,
+                    userId: data.userId,
+                    text: data.text,
+                    date: data.created?.toDate() ?? '',
+                    createdAt: data.createdAt,
+                });
+            });
+
+            setMessagesSelector(messages);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
     }, []);
-
-
 
     const submitMessage = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        if (newMessage.trim() && localStorage.getItem('userId')) {
+        const currentMessage = messageRef.current?.value ?? '';
+        setNewMessage('');
+        if (currentMessage.trim() && localStorage.getItem('userId')) {
             const userId: string = localStorage.getItem('userId') ?? '';
-            const send = await addDoc(messageRef, {
-                text: newMessage,
+            await addDoc(messagesRef, {
+                text: currentMessage,
                 createdAt: serverTimestamp(),
                 created: new Date(),
                 userId: userId,
                 userName: localStorage.getItem('user')
             });
-            console.log(send)
-            const message: IMessage = {
-                id: userId + (new Date().getTime()+''),
-                userId: userId,
-                text: newMessage,
-                date: new Date()
-            };
-            setMessagesSelector([...messagesSelector, message] as IMessage[]);
         }
-        setNewMessage('');
     }
 
     const logOut = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -79,19 +99,22 @@ const ChatPage: FC = () => {
         <div className={classes.chat}>
             <Navigation logOut={logOut}/>
             <div className={classes.container}>
-                {
-                    messagesSelector.map((message: IMessage, index) => {
-                        return (
-                            <Message message={message} key={index} />
-                        )
-                    })
-                }
+            {
+                loading ?
+                <h2 className={classes.loading}>...Идет загрузка</h2> :
+                messagesSelector.map((message: IMessage, index) => {
+                    return (
+                        <Message message={message} key={index} />
+                    )
+                })
+            }
             </div>
             <form className={classes.form}>
                 <Input
                    className={classes.input}
                    type="text"
                    value={newMessage}
+                   ref={messageRef}
                    onChange={(e) => setNewMessage(e.target.value)}
                 />
                 <Button

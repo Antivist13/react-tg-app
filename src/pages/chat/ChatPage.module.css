@@ -83,3 +83,9 @@ input:focus {
     display: grid;
     grid-template-columns: 1fr max-content;
 }
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: teal;
+}
