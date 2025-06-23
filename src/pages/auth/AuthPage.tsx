@@ -1,10 +1,18 @@
-import {FC, FormEvent, useEffect, useState} from "react";
+import {
+    FC,
+    FormEvent,
+    useEffect,
+    useState
+} from "react";
 import "./AuthPage.css";
 import Input from "../../UI/input/Input";
 import Button from "../../UI/button/Button";
-import {auth} from "../../Firebase";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import {useNavigate} from "react-router-dom";
+import { auth } from "../../Firebase";
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage: FC = () => {
     const [title, setTitle] = useState('Войдите или зарегистрируйтесь')

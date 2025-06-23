@@ -1,14 +1,22 @@
 import { FC } from "react";
 import classes  from "./Message.module.css";
 import { IMessage } from "../../components/models/messages";
+
 export const Message: FC<{ message: IMessage }> = ({message} ) => {
     const rootClasses: string[] = [classes.message];
     const currentDate = new Date(message?.date) ?? '';
-    const time: string = isNaN(currentDate.getHours()) 
-        ? ''
-        : `${currentDate?.getHours()}:${currentDate?.getMinutes() < 10 ? '0' + currentDate?.getMinutes() : currentDate?.getMinutes()}`;
     const userId: string = localStorage.getItem('userId') ?? '';
-    
+    let time = '';
+    if (!isNaN(currentDate.getHours())) {
+        time = `${
+            currentDate?.getHours()
+        }:${
+            currentDate?.getMinutes() < 10
+                ? '0' + currentDate?.getMinutes()
+                : currentDate?.getMinutes()
+        }`;
+}
+
     if (message.userId === userId) {
         rootClasses.push(classes.Me);
     }

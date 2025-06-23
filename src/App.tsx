@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import './App.css';
 import { FC, lazy, Suspense } from 'react';
 
-
 const AuthPage = lazy(() => import('./pages/auth/AuthPage'));
 const ChatPage = lazy(() => import('./pages/chat/ChatPage'));
 

@@ -1,14 +1,27 @@
-import {FC, useState, useEffect, MouseEvent, useRef} from "react";
+import {
+    FC,
+    useState,
+    useEffect,
+    MouseEvent,
+    useRef
+} from "react";
 import classes  from "./ChatPage.module.css";
 import { Message } from "../../components/message/Message";
 import { IMessage } from "../../components/models/messages";
-import {signOut} from "firebase/auth";
-import {useNavigate} from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import Input from "../../UI/input/Input";
 import Button from "../../UI/button/Button";
 import Navigation from "../../components/navigation/Navigation";
-import {auth, db} from "../../Firebase";
-import {addDoc, collection, serverTimestamp, query, onSnapshot, getDocs, orderBy} from "firebase/firestore";
+import { auth, db } from "../../Firebase";
+import {
+    addDoc,
+    collection,
+    serverTimestamp,
+    query,
+    onSnapshot,
+    orderBy
+} from "firebase/firestore";
 
 const ChatPage: FC = () => {
     const [messagesSelector, setMessagesSelector] = useState<IMessage[]>([]);
@@ -18,31 +31,6 @@ const ChatPage: FC = () => {
     const navigate = useNavigate();
     const messageRef = useRef<HTMLInputElement>(null);
 
-    const getMessages = async (): Promise<IMessage[]> => {
-        const querySnapshot = await getDocs(query(messagesRef, orderBy("createdAt", "asc")));
-        const newMessage: IMessage[] = [];
-        if (querySnapshot) {
-            querySnapshot.forEach(snapshot => {
-                const collection = snapshot.data();
-                let currentDate = '';
-                if(collection['created']) {
-                    currentDate = collection['created'].toDate();
-                }
-                
-                if (Object.keys(collection).length) {
-                    newMessage.push({
-                        id: snapshot.id,
-                        userId: collection['userId'],
-                        text: collection['text'],
-                        date: currentDate ?? '',
-                        createdAt: collection['createdAt']
-                    });
-                }
-            });
-        }
-
-        return newMessage;
-    }
     useEffect(() => {
         setLoading(true);
         if (!localStorage.getItem('user')) {
@@ -95,6 +83,7 @@ const ChatPage: FC = () => {
         await signOut(auth);
         navigate('/auth');
     }
+
     return (
         <div className={classes.chat}>
             <Navigation logOut={logOut}/>
