@@ -1,9 +1,17 @@
 .chart {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    max-width: 375px;
+    flex-direction: column;
+    max-width: 327px;
     width: 100%;
+    background-color: white;
+    margin: 20px 0;
+    border-radius: 16px;
+}
+.chartButtons {
+    display: grid;
+    padding: 8px 10px 0;
+    grid-template-columns: min-content 1fr max-content min-content;
+    align-items: center;
 }
 
 .chartTitle {
@@ -20,4 +28,24 @@
     font-size: 12px;
     line-height: 100%;
     color: #5F6979;
+}
+
+.chartContainer {
+    width: 327px;
+    height: 168px;
+}
+
+.chartIndicators {
+    display: grid;
+    align-items: center;
+    grid-template-columns: min-content 0.6fr min-content 1fr;
+    padding: 26px 0 24px 24px;
+}
+
+.chartLabel {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    color: #7A8A98;
+    padding-left: 8px;
 }
